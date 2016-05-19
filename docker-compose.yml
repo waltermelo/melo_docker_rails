@@ -1,0 +1,29 @@
+version: '2'
+services:
+
+  rails:
+    image: rails
+    command: bash -c "umask 000 && bash" 
+    volumes:
+      - .:/home/docker
+    volumes_from:
+      - bundle
+    working_dir: /home/docker
+    ports:
+      - "3000:3000"
+    environment:
+      - BUNDLE_PATH=/bundle
+    links:
+      - mysql
+
+  bundle:
+    image: busybox
+    volumes:
+      - /bundle
+
+  mysql:
+    image: mysql
+    ports:
+      - "13306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: 23788
